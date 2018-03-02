@@ -1,7 +1,5 @@
-#!/usr/bin/env python
-
 from PyQt5 import QtWidgets, QtCore, QtGui
-from PyQt5.QtWidgets import QFileSystemModel, QTreeView, QWidget, QVBoxLayout, QFileDialog
+from PyQt5.QtWidgets import QFileSystemModel, QTreeView, QWidget, QVBoxLayout, QFileDialog, QMessageBox, QApplication
 from PyQt5.QtGui import QIcon
 from MainWindow import Ui_MainWindow
 import sys
@@ -61,6 +59,7 @@ class ApplicationWindow(QtWidgets. QMainWindow):
         self.ui.treeView.clicked.connect(self.onClick)
         [self.ui.severityComboBox.addItem(sevs) for sevs in severity]
         self.ui.actionOpen.triggered.connect(self.openDirDialog)
+        self.ui.actionAbout_Qt.triggered.connect(self.aboutQt)
 
     def onClick(self, index):
         path = self.sender().model().filePath(index)
@@ -80,6 +79,8 @@ class ApplicationWindow(QtWidgets. QMainWindow):
         else:
             self.ui.treeView.setRootIndex(self.model.index(user_home()))
 
+    def aboutQt(self):
+        QMessageBox.aboutQt(self)
 
 def main():
     app = QtWidgets.QApplication(sys.argv)

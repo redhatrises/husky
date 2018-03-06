@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QFileSystemModel, QTreeView, QWidget, QVBoxLayout, Q
 from PyQt5.QtGui import QIcon
 from MainWindow import Ui_MainWindow
 import sys
+import os
 import yaml
 import codecs
 
@@ -31,7 +32,13 @@ def user_home():
 
 
 def load_yaml_to_gui(self, path):
-    if path.endswith(".rule"):
+    if path.endswith(".rule") or path.endswith(".group"):
+        self.ui.tabWidget.addTab(self.ui.tab, os.path.basename(path))
+#        self.ui.tabWidget.setTabText(self.ui.tabWidget.indexOf(self.ui.tab), "Tab 1")
+#        self.ui.tabWidget.addTab(self.ui.tab, ".rule2")
+        self.tab_2 = QtWidgets.QWidget()
+        self.tab_2.setObjectName("tab_2")
+        self.ui.tabWidget.addTab(self.tab_2, "")
         rule = open_yaml(path)
 #        print rule
         self.ui.txtProfileTitle.setText(rule['title'])
@@ -40,6 +47,12 @@ def load_yaml_to_gui(self, path):
         self.ui.txtOCILclause.setText(rule['ocil_clause'])
         self.ui.txtOCIL.setPlainText(rule['ocil'])
         self.ui.txtRationale.setPlainText(rule['rationale'])
+    self.ui.txtProfileDesc.textChanged.connect(self.onChange)
+    self.ui.txtProfileTitle.textChanged.connect(self.onChange)
+    self.ui.severityComboBox.activated.connect(self.onChange)
+    self.ui.txtOCIL.textChanged.connect(self.onChange)
+    self.ui.txtOCIL.textChanged.connect(self.onChange)
+    self.ui.txtRationale.textChanged.connect(self.onChange)
 
 
 def setDirectory(self, directory):
@@ -53,6 +66,7 @@ class ApplicationWindow(QtWidgets. QMainWindow):
         self.setAttribute(QtCore.Qt.WA_DeleteOnClose, True)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.ui.retranslateUi(self) 
 
         self.model = QFileSystemModel()
         self.proxyModel = QtCore.QSortFilterProxyModel(self.ui.treeView)
@@ -75,6 +89,11 @@ class ApplicationWindow(QtWidgets. QMainWindow):
         [self.ui.severityComboBox.addItem(sevs) for sevs in severity]
         self.ui.actionOpen.triggered.connect(self.openDirDialog)
         self.ui.actionAbout_Qt.triggered.connect(self.aboutQt)
+
+#        self.ui.txtProfileDesc.textChanged.connect(self.onChange)
+#        self.ui.tabWidget.currentChanged.connect(self.onChange)
+        self.ui.tabWidget.tabCloseRequested.connect(self.removeTab)
+
         self.textFilter()
 
     def onClick(self, index):
@@ -98,6 +117,16 @@ class ApplicationWindow(QtWidgets. QMainWindow):
     def textFilter(self):
         regExp = QtCore.QRegExp(self.ui.filedirsearch.text(), QtCore.Qt.CaseInsensitive)
         self.proxyModel.setFilterRegExp(regExp)
+
+    def removeTab(self, index):
+#        widget = self.ui.tabWidget(index)
+#        if widget is not None:
+#            widget.deleteLater()
+        self.ui.tabWidget.removeTab(index)
+
+    def onChange(self):
+        print "text changed"
+        #self.ui.tabWidget.setTabText(1, "test")
 
     def aboutQt(self):
         QMessageBox.aboutQt(self)

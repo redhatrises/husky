@@ -12,6 +12,7 @@ BuildArch:      noarch
 BuildRequires:  %{_py}
 BuildRequires:  %{_py}-qt5
 Requires:  %{_py}
+Requires:  PyYAML
 Requires:  %{_py}-qt5
 
 %description

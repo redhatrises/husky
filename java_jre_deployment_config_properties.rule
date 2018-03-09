@@ -1,0 +1,35 @@
+---
+documentation_complete: true
+title: Configure the 
+rule_id: java_jre_deployment_config_properties
+primary_group: java_jre_deployment_config_configured
+severity: medium
+
+description: |
+    To ensure that the Java properties file is set in
+    config_item="/etc/.java/deployment/deployment.config", add or modify
+    config_item="deployment.system.config" to equal
+    config_item="file:///etc/.java/deployment/deployment.properties".
+
+ocil_clause: it is not configured
+ocil: |
+        To verify that config_item="deployment.config" is configured properly,
+        run the following command:
+        code="$ grep 'deployment.system.config=file' /etc/.java/deployment/deployment.config"
+        If properly configured, the output should return:
+        code="deployment.system.config=file:///etc/.java/deployment/deployment.properties"
+
+rationale: |    
+    Without a proper path for the properties file, deployment would not be possible.
+    If the path specified does not lead to a properties file, the value of the
+    'deployment.system.config.mandatory' key determines how to handle the situation.
+    If the value of this key is true, JRE will not run if the path to the properties
+    file is invalid.
+
+identifiers:
+    cce: 
+    stig: JRE0060-UX
+
+references:
+    nist: DCBP-1
+    disa: 

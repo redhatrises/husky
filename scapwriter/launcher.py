@@ -33,40 +33,89 @@ def user_home():
 
 def load_yaml_to_gui(self, path):
     if path.endswith(".rule"):
-        self.ui.tabWidget.addTab(self.ui.tabRule, os.path.basename(path))
-#        self.ui.tabWidget.setTabText(self.ui.tabWidget.indexOf(self.ui.tab), "Tab 1")
-#        self.ui.tabWidget.addTab(self.ui.tab, ".rule2")
-#        self.tab_2 = QtWidgets.QWidget()
-#       self.tab_2.setObjectName("tab_2")
-#        self.ui.tabWidget.addTab(self.tab_2, "")
+        self.ui.tabWidget.addTab(addXCCDFTab(self.ui, path), os.path.basename(path))
         rule = open_yaml(path)
-#        print rule
-        self.ui.txtRuleTitle.setText(rule['title'])
-        self.ui.txtRuleDesc.setPlainText(rule['description'])
+        self.ui.txtTitle.setText(rule['title'])
+        self.ui.txtDesc.setPlainText(rule['description'])
         self.ui.severityComboBox.setCurrentText(rule['severity'].title())
         self.ui.txtOCILclause.setText(rule['ocil_clause'])
         self.ui.txtOCIL.setPlainText(rule['ocil'])
         self.ui.txtRationale.setPlainText(rule['rationale'])
  
-        self.ui.txtRuleDesc.textChanged.connect(self.onChange)
-        self.ui.txtRuleTitle.textChanged.connect(self.onChange)
+        self.ui.txtDesc.textChanged.connect(self.onChange)
+        self.ui.txtTitle.textChanged.connect(self.onChange)
         self.ui.severityComboBox.activated.connect(self.onChange)
         self.ui.txtOCIL.textChanged.connect(self.onChange)
         self.ui.txtOCIL.textChanged.connect(self.onChange)
         self.ui.txtRationale.textChanged.connect(self.onChange)
 
     if path.endswith(".group"):
-        self.ui.tabWidget.addTab(self.ui.tabGroup, os.path.basename(path))
+        self.ui.tabWidget.addTab(addXCCDFTab(self.ui, path), os.path.basename(path))
         group = open_yaml(path)
-        self.ui.txtGroupTitle.setText(group['title'])
-        self.ui.txtGroupDesc.setPlainText(group['description'])
-#        self.ui.txtGroupDesc.textChanged.connect(self.onChange)
-#        self.ui.txtGroupTitle.textChanged.connect(self.onChange)
+        self.ui.txtTitle.setText(group['title'])
+        self.ui.txtDesc.setPlainText(group['description'])
+
+        self.ui.txtDesc.textChanged.connect(self.onChange)
+        self.ui.txtTitle.textChanged.connect(self.onChange)
 
 
 def setDirectory(self, directory):
     self.ui.treeView.setModel(self.proxyModel)
     self.ui.treeView.setRootIndex(self.model.index(directory))
+
+
+def addXCCDFTab(self, path):
+        self.tab = QtWidgets.QWidget()
+        self.tab.setObjectName("tab")
+        self.formLayoutWidget = QtWidgets.QWidget(self.tab)
+        self.formLayoutWidget.setGeometry(QtCore.QRect(10, 10, 501, 541))
+        self.formLayoutWidget.setObjectName("formLayoutWidget")
+        self.scap = QtWidgets.QFormLayout(self.formLayoutWidget)
+        self.scap.setContentsMargins(1, 1, 1, 1)
+        self.scap.setObjectName("scap")
+        self.lblscap = QtWidgets.QLabel(self.formLayoutWidget)
+        self.lblscap.setObjectName("lblscap")
+        self.scap.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.lblscap)
+        self.txtTitle = QtWidgets.QLineEdit(self.formLayoutWidget)
+        self.txtTitle.setObjectName("txtTitle")
+        self.scap.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.txtTitle)
+        self.lbldesc = QtWidgets.QLabel(self.formLayoutWidget)
+        self.lbldesc.setObjectName("lbldesc")
+        self.scap.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.lbldesc)
+        self.txtDesc = QtWidgets.QPlainTextEdit(self.formLayoutWidget)
+        self.txtDesc.setObjectName("txtDesc")
+        self.scap.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.txtDesc)
+        self.severityLabel = QtWidgets.QLabel(self.formLayoutWidget)
+
+        if path.endswith(".rule"):
+            self.severityLabel.setObjectName("severityLabel")
+            self.scap.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.severityLabel)
+            self.severityComboBox = QtWidgets.QComboBox(self.formLayoutWidget)
+            self.severityComboBox.setObjectName("severityComboBox")
+            self.scap.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.severityComboBox)
+            self.oCILClauseLabel = QtWidgets.QLabel(self.formLayoutWidget)
+            self.oCILClauseLabel.setObjectName("oCILClauseLabel")
+            self.scap.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.oCILClauseLabel)
+            self.txtOCILclause = QtWidgets.QLineEdit(self.formLayoutWidget)
+            self.txtOCILclause.setObjectName("txtOCILclause")
+            self.scap.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.txtOCILclause)
+            self.oCILLabel = QtWidgets.QLabel(self.formLayoutWidget)
+            self.oCILLabel.setObjectName("oCILLabel")
+            self.scap.setWidget(4, QtWidgets.QFormLayout.LabelRole, self.oCILLabel)
+            self.txtOCIL = QtWidgets.QPlainTextEdit(self.formLayoutWidget)
+            self.txtOCIL.setObjectName("txtOCIL")
+            self.scap.setWidget(4, QtWidgets.QFormLayout.FieldRole, self.txtOCIL)
+            self.oRationaleLabel = QtWidgets.QLabel(self.formLayoutWidget)
+            self.oRationaleLabel.setFrameShape(QtWidgets.QFrame.NoFrame)
+            self.oRationaleLabel.setObjectName("oRationaleLabel")
+            self.scap.setWidget(5, QtWidgets.QFormLayout.LabelRole, self.oRationaleLabel)
+            self.txtRationale = QtWidgets.QPlainTextEdit(self.formLayoutWidget)
+            self.txtRationale.setObjectName("txtRationale")
+            self.scap.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.txtRationale)
+
+            [self.severityComboBox.addItem(sevs) for sevs in severity]
+
+        return self.tab
 
 
 class ApplicationWindow(QtWidgets. QMainWindow):
@@ -78,12 +127,9 @@ class ApplicationWindow(QtWidgets. QMainWindow):
         self.ui.retranslateUi(self) 
 
         self.ui.tabWidget.clear()
-        [self.ui.severityComboBox.addItem(sevs) for sevs in severity]
-
 
         self.model = QFileSystemModel()
         self.model.setRootPath(QtCore.QDir().rootPath())
-        self.model.setReadOnly(False)
         source = self.model.index(user_home())
 
         self.proxyModel = QtCore.QSortFilterProxyModel(self)
@@ -99,7 +145,7 @@ class ApplicationWindow(QtWidgets. QMainWindow):
 #        self.ui.treeView.setRootIndex(self.proxyModel)
 
         [self.ui.treeView.setColumnHidden(cols, True) for cols in range(1,4)]
-        self.ui.treeView.clicked.connect(self.onClick)
+        self.ui.treeView.doubleClicked.connect(self.onClick)
         self.ui.treeView.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
         self.ui.treeView.customContextMenuRequested.connect(self.create_popup_menu)
 
@@ -125,9 +171,6 @@ class ApplicationWindow(QtWidgets. QMainWindow):
 
         load_yaml_to_gui(self, path)
 
-        self.ui.txtGroupDesc.textChanged.connect(self.onChange)
-        self.ui.txtGroupTitle.textChanged.connect(self.onChange)
-
 
     def openDirDialog(self):
         dirname = QFileDialog()
@@ -139,6 +182,17 @@ class ApplicationWindow(QtWidgets. QMainWindow):
             setDirectory(self, dirname)
         else:
             setDirectory(self, user_home())
+
+
+    def saveFileDialog(self, ):
+        quit_msg = "Save changes before closing?"
+        reply = QtWidgets.QMessageBox.question(self, 'Message',
+                quit_msg, QtWidgets.QMessageBox.Yes, QtWidgets.QMessageBox.No)
+
+#        if reply == QtGui.QMessageBox.Yes:
+#            event.accept()
+#        else:
+#            event.ignore()
 
 
     def create_popup_menu(self, pos):
@@ -162,11 +216,17 @@ class ApplicationWindow(QtWidgets. QMainWindow):
 
 
     def removeTab(self, index):
+        if self.ui.tabWidget.tabText(index).startswith("*"):
+            self.saveFileDialog()
         self.ui.tabWidget.removeTab(index)
 
 
     def onChange(self):
-        print "text changed"
+        index = self.ui.tabWidget.currentIndex()
+        filename = self.ui.tabWidget.tabText(index)
+        if not filename.startswith("*"):
+            filename = "*" + filename
+        self.ui.tabWidget.setTabText(index, filename)
 
 
     def aboutQt(self):

@@ -285,28 +285,29 @@ class ApplicationWindow(QtWidgets. QMainWindow):
                 ])
             yaml_dict["title"] = self.ui.txtTitle.text()
             yaml_dict["description"] = self.ui.txtDesc.toPlainText()
-            yaml_dict["severity"] = self.ui.severityComboBox.currentText().lower()
-            yaml_dict["ocil_clause"] = self.ui.txtOCILclause.text()
-            yaml_dict["ocil"] = self.ui.txtOCIL.toPlainText()
-            yaml_dict["rationale"] = self.ui.txtRationale.toPlainText()
+            if path.endswith("*.rule"):
+                yaml_dict["severity"] = self.ui.severityComboBox.currentText().lower()
+                yaml_dict["ocil_clause"] = self.ui.txtOCILclause.text()
+                yaml_dict["ocil"] = self.ui.txtOCIL.toPlainText()
+                yaml_dict["rationale"] = self.ui.txtRationale.toPlainText()
 
             write_yaml(yaml_dict, path.strip("*"))
 
     def save(self, index):
-
+        index = self.ui.tabWidget.currentIndex()
+        filename = self.ui.tabWidget.tabText(index)
         yaml_dict = UnsortableOrderedDict([
                 ("documentation_complete", "true"),
                 ])
         yaml_dict["title"] = self.ui.txtTitle.text()
         yaml_dict["description"] = self.ui.txtDesc.toPlainText()
-        yaml_dict["severity"] = self.ui.severityComboBox.currentText().lower()
-        yaml_dict["ocil_clause"] = self.ui.txtOCILclause.text()
-        yaml_dict["ocil"] = self.ui.txtOCIL.toPlainText()
-        yaml_dict["rationale"] = self.ui.txtRationale.toPlainText()
+        if filename.endswith(".rule"):
+            yaml_dict["severity"] = self.ui.severityComboBox.currentText().lower()
+            yaml_dict["ocil_clause"] = self.ui.txtOCILclause.text()
+            yaml_dict["ocil"] = self.ui.txtOCIL.toPlainText()
+            yaml_dict["rationale"] = self.ui.txtRationale.toPlainText()
 
         write_yaml(yaml_dict, self.ui.tabWidget.tabText(index).strip("*"))
-        index = self.ui.tabWidget.currentIndex()
-        filename = self.ui.tabWidget.tabText(index)
         self.ui.tabWidget.setTabText(index, filename.strip("*"))
 
 

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>642</height>
+    <width>1024</width>
+    <height>800</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -109,155 +109,21 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>-1</number>
     </property>
     <property name="tabsClosable">
      <bool>true</bool>
     </property>
-    <property name="tabBarAutoHide">
-     <bool>false</bool>
+   </widget>
+   <widget class="QTableView" name="tableView">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>460</y>
+      <width>256</width>
+      <height>192</height>
+     </rect>
     </property>
-    <widget class="QWidget" name="tabRule">
-     <attribute name="title">
-      <string/>
-     </attribute>
-     <widget class="QWidget" name="formLayoutWidget">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>501</width>
-        <height>541</height>
-       </rect>
-      </property>
-      <layout class="QFormLayout" name="scaprule">
-       <property name="leftMargin">
-        <number>1</number>
-       </property>
-       <property name="topMargin">
-        <number>1</number>
-       </property>
-       <property name="rightMargin">
-        <number>1</number>
-       </property>
-       <property name="bottomMargin">
-        <number>1</number>
-       </property>
-       <item row="0" column="0">
-        <widget class="QLabel" name="lblruletitle">
-         <property name="text">
-          <string>Title</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QLineEdit" name="txtRuleTitle"/>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="lblruledesc">
-         <property name="text">
-          <string>Description</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QPlainTextEdit" name="txtRuleDesc"/>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="severityLabel">
-         <property name="text">
-          <string>Severity</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QComboBox" name="severityComboBox"/>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="oCILClauseLabel">
-         <property name="text">
-          <string>OCIL Clause</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QLineEdit" name="txtOCILclause"/>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="oCILLabel">
-         <property name="text">
-          <string>OCIL</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <widget class="QPlainTextEdit" name="txtOCIL"/>
-       </item>
-       <item row="5" column="0">
-        <widget class="QLabel" name="oRationaleLabel">
-         <property name="frameShape">
-          <enum>QFrame::NoFrame</enum>
-         </property>
-         <property name="text">
-          <string>Rationale</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="1">
-        <widget class="QPlainTextEdit" name="txtRationale"/>
-       </item>
-      </layout>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="tabGroup">
-     <attribute name="title">
-      <string/>
-     </attribute>
-     <widget class="QWidget" name="formLayoutWidget_2">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>501</width>
-        <height>541</height>
-       </rect>
-      </property>
-      <layout class="QFormLayout" name="scapgroup">
-       <property name="leftMargin">
-        <number>1</number>
-       </property>
-       <property name="topMargin">
-        <number>1</number>
-       </property>
-       <property name="rightMargin">
-        <number>1</number>
-       </property>
-       <property name="bottomMargin">
-        <number>1</number>
-       </property>
-       <item row="0" column="0">
-        <widget class="QLabel" name="lblgrouptitle">
-         <property name="text">
-          <string>Title</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QLineEdit" name="txtGroupTitle"/>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="lblgroupdesc">
-         <property name="text">
-          <string>Description</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QPlainTextEdit" name="txtGroupDesc"/>
-       </item>
-      </layout>
-     </widget>
-    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -265,7 +131,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>1024</width>
      <height>20</height>
     </rect>
    </property>
@@ -279,7 +145,8 @@
      </property>
     </widget>
     <addaction name="menuNew"/>
-    <addaction name="actionOpen"/>
+    <addaction name="actionOpenFile"/>
+    <addaction name="actionOpenProject"/>
     <addaction name="separator"/>
     <addaction name="action_Save"/>
     <addaction name="actionSave_As"/>
@@ -310,9 +177,9 @@
     <string>Ctrl+Q</string>
    </property>
   </action>
-  <action name="actionOpen">
+  <action name="actionOpenFile">
    <property name="text">
-    <string>&amp;Open</string>
+    <string>&amp;Open File</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
@@ -337,6 +204,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+S</string>
+   </property>
+  </action>
+  <action name="actionOpenProject">
+   <property name="text">
+    <string>Open Project</string>
    </property>
   </action>
  </widget>

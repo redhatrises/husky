@@ -24,9 +24,6 @@ class UnsortableOrderedDict(OrderedDict):
 def open_yaml(yaml_file):
     with codecs.open(yaml_file, "r", "utf8") as stream:
         yaml_contents = yaml.load(stream)
-        if "documentation_complete" in yaml_contents and \
-                yaml_contents["documentation_complete"] == "false":
-            return None
 
         return yaml_contents
 
@@ -101,20 +98,26 @@ class ApplicationWindow(QtWidgets. QMainWindow):
     def load_yaml_to_gui(self, path):
         self.ui.tabWidget.addTab(self.addXCCDFTab(path), os.path.basename(path))
         data = open_yaml(path)
+        if data is not None:
+            if "title" in data:
+                self.ui.txtTitle.setText(data['title'])
+            if "description" in data:
+                self.ui.txtDesc.setPlainText(data['description'])
 
-        self.ui.txtTitle.setText(data['title'])
-        self.ui.txtDesc.setPlainText(data['description'])
+            if path.endswith(".rule"):
+                if "severity" in data:
+                    self.ui.severityComboBox.setCurrentText(data['severity'].title())
+                if "ocil_clause" in data:
+                    self.ui.txtOCILclause.setText(data['ocil_clause'])
+                if "ocil" in data:
+                    self.ui.txtOCIL.setPlainText(data['ocil'])
+                if "rationale" in data:
+                    self.ui.txtRationale.setPlainText(data['rationale'])
 
-        if path.endswith(".rule"):
-            self.ui.severityComboBox.setCurrentText(data['severity'].title())
-            self.ui.txtOCILclause.setText(data['ocil_clause'])
-            self.ui.txtOCIL.setPlainText(data['ocil'])
-            self.ui.txtRationale.setPlainText(data['rationale'])
-
-            self.ui.severityComboBox.activated.connect(self.onChange)
-            self.ui.txtOCIL.textChanged.connect(self.onChange)
-            self.ui.txtOCILclause.textChanged.connect(self.onChange)
-            self.ui.txtRationale.textChanged.connect(self.onChange)
+        self.ui.severityComboBox.activated.connect(self.onChange)
+        self.ui.txtOCIL.textChanged.connect(self.onChange)
+        self.ui.txtOCILclause.textChanged.connect(self.onChange)
+        self.ui.txtRationale.textChanged.connect(self.onChange)
 
 #        if path.endswith(".profile"):
 #            tv = self.ui.tableView

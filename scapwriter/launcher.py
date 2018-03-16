@@ -114,10 +114,10 @@ class ApplicationWindow(QtWidgets. QMainWindow):
                 if "rationale" in data:
                     self.ui.txtRationale.setPlainText(data['rationale'])
 
-        self.ui.severityComboBox.activated.connect(self.onChange)
-        self.ui.txtOCIL.textChanged.connect(self.onChange)
-        self.ui.txtOCILclause.textChanged.connect(self.onChange)
-        self.ui.txtRationale.textChanged.connect(self.onChange)
+                self.ui.severityComboBox.activated.connect(self.onChange)
+                self.ui.txtOCIL.textChanged.connect(self.onChange)
+                self.ui.txtOCILclause.textChanged.connect(self.onChange)
+                self.ui.txtRationale.textChanged.connect(self.onChange)
 
 #        if path.endswith(".profile"):
 #            tv = self.ui.tableView

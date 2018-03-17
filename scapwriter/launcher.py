@@ -116,7 +116,7 @@ class ApplicationWindow(QtWidgets. QMainWindow):
                 header = self.ui.identsTable
                 header.setHorizontalHeaderLabels(["OS", "CCE"])
                 header.setColumnCount(3)
-                header.horizontalHeader().setVisible(True)
+                header.verticalHeader().hide()
                 header.setHorizontalHeaderItem(0, QtWidgets.QTableWidgetItem("Identifier Type"))
                 header.setHorizontalHeaderItem(1, QtWidgets.QTableWidgetItem("Operating System"))
                 header.setHorizontalHeaderItem(2, QtWidgets.QTableWidgetItem("Identifier"))
@@ -125,18 +125,18 @@ class ApplicationWindow(QtWidgets. QMainWindow):
                 header.setColumnWidth(2, 137)
                 header.insertRow(header.rowCount())
                 if "identifiers" in data:
-                    for column, keys in enumerate(data["identifiers"]):
-                        for row, val in enumerate(data["identifiers"][keys]):
-                            print val
-                            if "@" in keys:
-                                ident_type = keys.split("@")[0]
-                                os_type = keys.split("@")[1]
-                            else:
-                                ident_type = keys
-                                os_type = "All"
-  	                    header.setItem(row, 0, QtWidgets.QTableWidgetItem(ident_type))
-                            header.setItem(row, 1, QtWidgets.QTableWidgetItem(os_type))
-                            header.setItem(row, 2, QtWidgets.QTableWidgetItem(val))
+                    for row, keys in enumerate(data["identifiers"].keys()):
+                        val = data["identifiers"][keys]
+                        if "@" in keys:
+                            ident_type = keys.split("@")[0]
+                            os_type = keys.split("@")[1]
+                        else:
+                            ident_type = keys
+                            os_type = "All"
+                        header.setItem(row, 0, QtWidgets.QTableWidgetItem(ident_type))
+                        header.setItem(row, 1, QtWidgets.QTableWidgetItem(os_type))
+                        header.setItem(row, 2, QtWidgets.QTableWidgetItem(val))
+                        header.insertRow(header.rowCount())
 #                header.doubleClicked.connect()
                         
 
@@ -240,24 +240,25 @@ class ApplicationWindow(QtWidgets. QMainWindow):
 
             self.ui.oCILClauseLabel = QtWidgets.QLabel(self.ui.formLayoutWidget)
             self.ui.oCILClauseLabel.setObjectName("oCILClauseLabel")
-            self.ui.scap.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.ui.oCILClauseLabel)
+            self.ui.scap.setWidget(4, QtWidgets.QFormLayout.LabelRole, self.ui.oCILClauseLabel)
             self.ui.txtOCILclause = QtWidgets.QLineEdit(self.ui.formLayoutWidget)
             self.ui.txtOCILclause.setObjectName("txtOCILclause")
-            self.ui.scap.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.ui.txtOCILclause)
+            self.ui.scap.setWidget(4, QtWidgets.QFormLayout.FieldRole, self.ui.txtOCILclause)
             self.ui.oCILLabel = QtWidgets.QLabel(self.ui.formLayoutWidget)
             self.ui.oCILLabel.setObjectName("oCILLabel")
-            self.ui.scap.setWidget(4, QtWidgets.QFormLayout.LabelRole, self.ui.oCILLabel)
+            self.ui.scap.setWidget(5, QtWidgets.QFormLayout.LabelRole, self.ui.oCILLabel)
             self.ui.txtOCIL = QtWidgets.QPlainTextEdit(self.ui.formLayoutWidget)
             self.ui.txtOCIL.setObjectName("txtOCIL")
-            self.ui.scap.setWidget(4, QtWidgets.QFormLayout.FieldRole, self.ui.txtOCIL)
+            self.ui.scap.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.ui.txtOCIL)
             self.ui.oRationaleLabel = QtWidgets.QLabel(self.ui.formLayoutWidget)
             self.ui.oRationaleLabel.setFrameShape(QtWidgets.QFrame.NoFrame)
             self.ui.oRationaleLabel.setObjectName("oRationaleLabel")
-            self.ui.scap.setWidget(5, QtWidgets.QFormLayout.LabelRole, self.ui.oRationaleLabel)
+            self.ui.scap.setWidget(6, QtWidgets.QFormLayout.LabelRole, self.ui.oRationaleLabel)
             self.ui.txtRationale = QtWidgets.QPlainTextEdit(self.ui.formLayoutWidget)
             self.ui.txtRationale.setObjectName("txtRationale")
-            self.ui.scap.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.ui.txtRationale)
+            self.ui.scap.setWidget(6, QtWidgets.QFormLayout.FieldRole, self.ui.txtRationale)
 
+            self.ui.identsLabel.setText(_translate("MainWindow", "Indentifiers"))
             self.ui.severityLabel.setText(_translate("MainWindow", "Severity"))
             self.ui.oCILClauseLabel.setText(_translate("MainWindow", "OCIL Clause"))
             self.ui.oCILLabel.setText(_translate("MainWindow", "OCIL"))

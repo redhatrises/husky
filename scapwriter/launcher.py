@@ -113,6 +113,32 @@ class ApplicationWindow(QtWidgets. QMainWindow):
                     self.ui.txtOCIL.setPlainText(data['ocil'])
                 if "rationale" in data:
                     self.ui.txtRationale.setPlainText(data['rationale'])
+                header = self.ui.identsTable
+                header.setHorizontalHeaderLabels(["OS", "CCE"])
+                header.setColumnCount(3)
+                header.horizontalHeader().setVisible(True)
+                header.setHorizontalHeaderItem(0, QtWidgets.QTableWidgetItem("Identifier Type"))
+                header.setHorizontalHeaderItem(1, QtWidgets.QTableWidgetItem("Operating System"))
+                header.setHorizontalHeaderItem(2, QtWidgets.QTableWidgetItem("Identifier"))
+                header.setColumnWidth(0, 137)
+                header.setColumnWidth(1, 160)
+                header.setColumnWidth(2, 137)
+                header.insertRow(header.rowCount())
+                if "identifiers" in data:
+                    for column, keys in enumerate(data["identifiers"]):
+                        for row, val in enumerate(data["identifiers"][keys]):
+                            print val
+                            if "@" in keys:
+                                ident_type = keys.split("@")[0]
+                                os_type = keys.split("@")[1]
+                            else:
+                                ident_type = keys
+                                os_type = "All"
+  	                    header.setItem(row, 0, QtWidgets.QTableWidgetItem(ident_type))
+                            header.setItem(row, 1, QtWidgets.QTableWidgetItem(os_type))
+                            header.setItem(row, 2, QtWidgets.QTableWidgetItem(val))
+#                header.doubleClicked.connect()
+                        
 
                 self.ui.severityComboBox.activated.connect(self.onChange)
                 self.ui.txtOCIL.textChanged.connect(self.onChange)
@@ -205,6 +231,13 @@ class ApplicationWindow(QtWidgets. QMainWindow):
             self.ui.severityComboBox = QtWidgets.QComboBox(self.ui.formLayoutWidget)
             self.ui.severityComboBox.setObjectName("severityComboBox")
             self.ui.scap.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.ui.severityComboBox)
+            self.ui.identsLabel = QtWidgets.QLabel(self.ui.formLayoutWidget)
+            self.ui.identsLabel.setObjectName("identsLabel")
+            self.ui.scap.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.ui.identsLabel)
+            self.ui.identsTable = QtWidgets.QTableWidget(self.ui.formLayoutWidget)
+            self.ui.identsTable.setObjectName("identsTable")
+            self.ui.scap.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.ui.identsTable)
+
             self.ui.oCILClauseLabel = QtWidgets.QLabel(self.ui.formLayoutWidget)
             self.ui.oCILClauseLabel.setObjectName("oCILClauseLabel")
             self.ui.scap.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.ui.oCILClauseLabel)
@@ -292,6 +325,7 @@ class ApplicationWindow(QtWidgets. QMainWindow):
                 yaml_dict["rationale"] = self.ui.txtRationale.toPlainText()
 
             write_yaml(yaml_dict, path.strip("*"))
+
 
     def save(self, index):
         index = self.ui.tabWidget.currentIndex()

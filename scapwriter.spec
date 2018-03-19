@@ -1,3 +1,4 @@
+%define debug_package %{nil}
 %define _py python
 
 Name:           scap-writer
